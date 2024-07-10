@@ -16,10 +16,10 @@ const initialBracket = [
   ["Tacos", "Burgers"],
   ["Pasta", "Salad"],
   ["Steak", "Curry"],
-  ["Ramen", "Pho"],
+  ["Ramen", "Phở"],
   ["BBQ", "Fried Chicken"],
-  ["Dim Sum", "Falafel"],
-  ["Pad Thai", "Biryani"],
+  ["Dim Sum", "Bánh Mì"],
+  ["Spaghetti", "Hot Pot"],
 ];
 
 const WinnerScreen = ({ winner, onRestart }) => {
