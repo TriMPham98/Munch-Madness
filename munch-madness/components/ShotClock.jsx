@@ -23,7 +23,7 @@ const ShotClock = ({ onTimeout, isActive, key }) => {
   return (
     <div
       className={`text-4xl font-bold ${
-        timeLeft <= 5 ? "text-red-600" : "text-black"
+        timeLeft <= 5 ? "text-red-600" : "dark:text-white"
       }`}>
       {timeLeft}
     </div>

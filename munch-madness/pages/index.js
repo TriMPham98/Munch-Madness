@@ -8,6 +8,8 @@ import {
 import { Button } from "../components/ui/button";
 import { Trophy } from "lucide-react";
 import ShotClock from "../components/ShotClock";
+import { ThemeProvider } from "../components/ThemeContext";
+import ToggleButton from "../components/ToggleButton";
 
 const initialBracket = [
   ["Pizza", "Sushi"],
@@ -23,19 +25,23 @@ const initialBracket = [
 const WinnerScreen = ({ winner, onRestart }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
-      <Card className="w-full max-w-md text-center">
+      <Card className="w-full max-w-md text-center dark:bg-gray-800">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">
+          <CardTitle className="text-3xl font-bold dark:text-white">
             We Have a Winner!
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Trophy className="mx-auto my-6 text-yellow-400" size={100} />
-          <h2 className="text-2xl font-semibold mb-6">
+          <h2 className="text-2xl font-semibold mb-6 dark:text-white">
             Tonight's Dinner Choice:
           </h2>
-          <p className="text-4xl font-bold mb-8 text-purple-700">{winner}</p>
-          <Button onClick={onRestart} className="w-full">
+          <p className="text-4xl font-bold mb-8 text-purple-700 dark:text-purple-400">
+            {winner}
+          </p>
+          <Button
+            onClick={onRestart}
+            className="w-full dark:bg-gray-700 dark:text-white">
             Start New Bracket
           </Button>
         </CardContent>
@@ -100,54 +106,76 @@ const BracketApp = () => {
   };
 
   if (winner) {
-    return <WinnerScreen winner={winner} onRestart={restartBracket} />;
+    return (
+      <ThemeProvider>
+        <div className="dark:bg-gray-900 min-h-screen">
+          <div className="container mx-auto p-4">
+            <div className="flex justify-end mb-4">
+              <ToggleButton />
+            </div>
+            <WinnerScreen winner={winner} onRestart={restartBracket} />
+          </div>
+        </div>
+      </ThemeProvider>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Dinner Decision Bracket</h1>
-      <h2 className="text-xl mb-4">Round {roundNumber}</h2>
-      <div className="flex justify-center mb-4">
-        <ShotClock
-          onTimeout={handleTimeout}
-          isActive={isClockActive}
-          key={clockKey}
-        />
+    <ThemeProvider>
+      <div className="dark:bg-gray-900 min-h-screen">
+        <div className="container mx-auto p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold dark:text-white">
+              Dinner Decision Bracket
+            </h1>
+            <ToggleButton />
+          </div>
+          <h2 className="text-xl mb-4 dark:text-white">Round {roundNumber}</h2>
+          <div className="flex justify-center mb-4">
+            <ShotClock
+              onTimeout={handleTimeout}
+              isActive={isClockActive}
+              key={clockKey}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {currentRound.map((matchup, matchupIndex) => (
+              <Card
+                key={matchupIndex}
+                className={`w-full ${
+                  matchupIndex === activeMatchup ? "ring-2 ring-blue-500" : ""
+                } dark:bg-gray-800`}>
+                <CardHeader>
+                  <CardTitle className="dark:text-white">
+                    Matchup {matchupIndex + 1}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col space-y-2">
+                    <Button
+                      onClick={() => advanceWinner(matchupIndex, 0)}
+                      className="w-full dark:bg-gray-700 dark:text-white"
+                      disabled={
+                        matchup.length === 1 || matchupIndex !== activeMatchup
+                      }>
+                      {matchup[0]}
+                    </Button>
+                    {matchup[1] && (
+                      <Button
+                        onClick={() => advanceWinner(matchupIndex, 1)}
+                        className="w-full dark:bg-gray-700 dark:text-white"
+                        disabled={matchupIndex !== activeMatchup}>
+                        {matchup[1]}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {currentRound.map((matchup, matchupIndex) => (
-          <Card
-            key={matchupIndex}
-            className={`w-full ${
-              matchupIndex === activeMatchup ? "ring-2 ring-blue-500" : ""
-            }`}>
-            <CardHeader>
-              <CardTitle>Matchup {matchupIndex + 1}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col space-y-2">
-                <Button
-                  onClick={() => advanceWinner(matchupIndex, 0)}
-                  className="w-full"
-                  disabled={
-                    matchup.length === 1 || matchupIndex !== activeMatchup
-                  }>
-                  {matchup[0]}
-                </Button>
-                {matchup[1] && (
-                  <Button
-                    onClick={() => advanceWinner(matchupIndex, 1)}
-                    className="w-full"
-                    disabled={matchupIndex !== activeMatchup}>
-                    {matchup[1]}
-                  </Button>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
