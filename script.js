@@ -6,11 +6,11 @@ const bracketSection = document.getElementById("bracketSection");
 const inputsContainer = document.getElementById("inputs");
 const bracketContainer = document.getElementById("bracket");
 const startButton = document.getElementById("startBracket");
-const remainingChoicesDiv = document.getElementById("remainingChoices");
 const timerDiv = document.getElementById("timer");
 
 let choices = [];
-let currentMatchup = [];
+let currentRound = 16;
+let currentMatchupIndex = 0;
 let timer;
 let timeLeft;
 
@@ -34,73 +34,92 @@ function startBracket() {
     return;
   }
 
+  // Pad the choices array to 16 if less than 16 choices are entered
+  while (choices.length < 16) {
+    choices.push("");
+  }
+
   inputSection.style.display = "none";
   bracketSection.style.display = "block";
 
-  runRandomMatchup();
+  initializeBracket();
+  runNextMatchup();
 }
 
-function runRandomMatchup() {
-  if (choices.length === 1) {
-    bracketContainer.innerHTML = `<h2>The Munch Madness Champion is: ${choices[0]}!</h2>`;
-    remainingChoicesDiv.textContent = "";
+function initializeBracket() {
+  const round16 = document.querySelector(".round-16");
+  round16.innerHTML = "";
+  for (let i = 0; i < 16; i += 2) {
+    const matchup = document.createElement("div");
+    matchup.className = "matchup";
+    matchup.innerHTML = `
+            <div class="choice" onclick="advanceChoice(${i})">${
+      choices[i] || "TBD"
+    }</div>
+            <div class="choice" onclick="advanceChoice(${i + 1})">${
+      choices[i + 1] || "TBD"
+    }</div>
+        `;
+    round16.appendChild(matchup);
+  }
+}
+
+function runNextMatchup() {
+  if (currentRound === 1) {
+    document.querySelector(".round-1 .choice").classList.add("active");
     timerDiv.style.display = "none";
     return;
   }
 
-  // Randomly select two choices
-  const index1 = Math.floor(Math.random() * choices.length);
-  let index2 = Math.floor(Math.random() * (choices.length - 1));
-  if (index2 >= index1) index2++;
+  const currentRoundDiv = document.querySelector(`.round-${currentRound}`);
+  const matchups = currentRoundDiv.querySelectorAll(".matchup");
+  const currentMatchup = matchups[currentMatchupIndex];
 
-  currentMatchup = [choices[index1], choices[index2]];
+  // Reset all choices to inactive
+  document
+    .querySelectorAll(".choice")
+    .forEach((choice) => choice.classList.remove("active"));
 
-  bracketContainer.innerHTML = "";
-  const matchup = document.createElement("div");
-  matchup.className = "matchup";
+  // Set current choices to active
+  currentMatchup
+    .querySelectorAll(".choice")
+    .forEach((choice) => choice.classList.add("active"));
 
-  const choiceElement1 = createChoiceElement(currentMatchup[0]);
-  const choiceElement2 = createChoiceElement(currentMatchup[1]);
-
-  matchup.appendChild(choiceElement1);
-  matchup.appendChild(choiceElement2);
-  bracketContainer.appendChild(matchup);
-
-  updateRemainingChoices();
   startTimer();
 }
 
-function createChoiceElement(choice) {
-  const element = document.createElement("div");
-  element.className = "choice";
-  element.textContent = choice;
-  element.onclick = () => advanceChoice(choice);
-  return element;
-}
-
-function advanceChoice(winner, isRandom = false) {
+function advanceChoice(index) {
   clearInterval(timer);
-  choices = choices.filter(
-    (choice) => choice !== currentMatchup[0] && choice !== currentMatchup[1]
-  );
-  choices.push(winner);
+  const currentRoundDiv = document.querySelector(`.round-${currentRound}`);
+  const nextRoundDiv = document.querySelector(`.round-${currentRound / 2}`);
+  const matchups = currentRoundDiv.querySelectorAll(".matchup");
+  const currentMatchup = matchups[currentMatchupIndex];
+  const winningChoice = currentMatchup.querySelectorAll(".choice")[index % 2];
 
-  if (isRandom) {
-    bracketContainer.innerHTML = `<h2>Time's up! ${winner} was randomly chosen to advance.</h2>`;
-    setTimeout(() => runRandomMatchup(), 2000); // Wait 2 seconds before next matchup
-  } else {
-    runRandomMatchup();
+  // Move the winning choice to the next round
+  if (!nextRoundDiv.children[Math.floor(currentMatchupIndex / 2)]) {
+    const newMatchup = document.createElement("div");
+    newMatchup.className = "matchup";
+    nextRoundDiv.appendChild(newMatchup);
   }
-}
+  const nextMatchup =
+    nextRoundDiv.children[Math.floor(currentMatchupIndex / 2)];
+  if (!nextMatchup.children[currentMatchupIndex % 2]) {
+    const newChoice = document.createElement("div");
+    newChoice.className = "choice";
+    newChoice.onclick = () => advanceChoice(currentMatchupIndex);
+    nextMatchup.appendChild(newChoice);
+  }
+  nextMatchup.children[currentMatchupIndex % 2].textContent =
+    winningChoice.textContent;
 
-function updateRemainingChoices() {
-  const otherChoices = choices.filter(
-    (choice) => !currentMatchup.includes(choice)
-  );
-  remainingChoicesDiv.textContent =
-    otherChoices.length > 0
-      ? `Remaining choices: ${otherChoices.join(", ")}`
-      : "";
+  currentMatchupIndex++;
+  if (currentMatchupIndex >= matchups.length) {
+    currentRound /= 2;
+    currentMatchupIndex = 0;
+  }
+
+  runNextMatchup();
 }
 
 function startTimer() {
@@ -111,8 +130,8 @@ function startTimer() {
     updateTimerDisplay();
     if (timeLeft === 0) {
       clearInterval(timer);
-      const randomChoice = Math.random() < 0.5 ? 0 : 1;
-      advanceChoice(currentMatchup[randomChoice], true);
+      const randomChoice = Math.floor(Math.random() * 2);
+      advanceChoice(currentMatchupIndex * 2 + randomChoice);
     }
   }, 1000);
 }

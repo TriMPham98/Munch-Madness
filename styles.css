@@ -2,7 +2,7 @@ body {
   font-family: "Arial", sans-serif;
   line-height: 1.6;
   color: #333;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f4f4f4;
@@ -48,26 +48,6 @@ button:hover {
   background-color: #2980b9;
 }
 
-.matchup {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.choice {
-  padding: 10px 20px;
-  background-color: #ecf0f1;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.choice:hover {
-  background-color: #3498db;
-  color: white;
-  transform: scale(1.05);
-}
-
 #timer {
   font-size: 24px;
   font-weight: bold;
@@ -76,7 +56,60 @@ button:hover {
   color: #e74c3c;
 }
 
-#remainingChoices {
-  margin-top: 20px;
-  font-style: italic;
+#bracket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 800px;
+}
+
+.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 18%;
+}
+
+.matchup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.choice {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #ecf0f1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  width: 100%;
+}
+
+.choice:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+.choice.active {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.round-16 .matchup {
+  height: 12%;
+}
+.round-8 .matchup {
+  height: 24%;
+}
+.round-4 .matchup {
+  height: 48%;
+}
+.round-2 .matchup {
+  height: 96%;
+}
+.round-1 .matchup {
+  height: 100%;
 }
