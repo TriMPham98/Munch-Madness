@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ShotClock = ({ onTimeout, isActive }) => {
+const ShotClock = ({ onTimeout, isActive, key }) => {
   const [timeLeft, setTimeLeft] = useState(24);
 
   useEffect(() => {
@@ -17,10 +17,8 @@ const ShotClock = ({ onTimeout, isActive }) => {
   }, [timeLeft, isActive, onTimeout]);
 
   useEffect(() => {
-    if (isActive) {
-      setTimeLeft(24);
-    }
-  }, [isActive]);
+    setTimeLeft(24);
+  }, [key]);
 
   return (
     <div
