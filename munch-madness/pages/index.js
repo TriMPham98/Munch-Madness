@@ -51,12 +51,22 @@ const WinnerScreen = ({ winner, onRestart }) => {
 };
 
 const BracketApp = () => {
-  const [currentRound, setCurrentRound] = useState(initialBracket);
-  const [roundNumber, setRoundNumber] = useState(1);
+  const [currentRound, setCurrentRound] = useState([]);
+  const [roundNumber, setRoundNumber] = useState(0);
   const [winner, setWinner] = useState(null);
   const [activeMatchup, setActiveMatchup] = useState(0);
-  const [isClockActive, setIsClockActive] = useState(true);
+  const [isClockActive, setIsClockActive] = useState(false);
   const [clockKey, setClockKey] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const startGame = () => {
+    setCurrentRound(initialBracket);
+    setRoundNumber(1);
+    setActiveMatchup(0);
+    setIsClockActive(true);
+    setGameStarted(true);
+    setClockKey((prevKey) => prevKey + 1);
+  };
 
   const advanceWinner = useCallback(
     (matchupIndex, winnerIndex) => {
@@ -97,12 +107,13 @@ const BracketApp = () => {
   }, [activeMatchup, advanceWinner]);
 
   const restartBracket = () => {
-    setCurrentRound(initialBracket);
-    setRoundNumber(1);
+    setCurrentRound([]);
+    setRoundNumber(0);
     setWinner(null);
     setActiveMatchup(0);
-    setIsClockActive(true);
-    setClockKey((prevKey) => prevKey + 1); // Reset the clock
+    setIsClockActive(false);
+    setGameStarted(false);
+    setClockKey((prevKey) => prevKey + 1);
   };
 
   if (winner) {
@@ -130,53 +141,70 @@ const BracketApp = () => {
             </h1>
             <ToggleButton />
           </div>
-          <h2 className="text-xl mb-4 dark:text-white">Round {roundNumber}</h2>
-          <div className="flex justify-center mb-4">
-            <ShotClock
-              onTimeout={handleTimeout}
-              isActive={isClockActive}
-              key={clockKey}
-            />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {currentRound.map((matchup, matchupIndex) => (
-              <Card
-                key={matchupIndex}
-                className={`w-full ${
-                  matchupIndex === activeMatchup ? "ring-2 ring-blue-500" : ""
-                } dark:bg-gray-800`}>
-                <CardHeader>
-                  <CardTitle className="dark:text-white">
-                    Matchup {matchupIndex + 1}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col space-y-2">
-                    <Button
-                      onClick={() => advanceWinner(matchupIndex, 0)}
-                      className={`w-full ${
-                        matchup.length === 1
-                          ? "bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800"
-                          : "dark:bg-gray-700"
-                      } dark:text-white`}
-                      disabled={
-                        matchup.length === 1 || matchupIndex !== activeMatchup
-                      }>
-                      {matchup[0]}
-                    </Button>
-                    {matchup[1] && (
-                      <Button
-                        onClick={() => advanceWinner(matchupIndex, 1)}
-                        className="w-full dark:bg-gray-700 dark:text-white"
-                        disabled={matchupIndex !== activeMatchup}>
-                        {matchup[1]}
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {!gameStarted ? (
+            <div className="flex justify-center items-center h-[80vh]">
+              <Button
+                onClick={startGame}
+                className="text-2xl py-8 px-16 bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 text-white">
+                Start Bracket
+              </Button>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-xl mb-4 dark:text-white">
+                Round {roundNumber}
+              </h2>
+              <div className="flex justify-center mb-4">
+                <ShotClock
+                  onTimeout={handleTimeout}
+                  isActive={isClockActive}
+                  key={clockKey}
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {currentRound.map((matchup, matchupIndex) => (
+                  <Card
+                    key={matchupIndex}
+                    className={`w-full ${
+                      matchupIndex === activeMatchup
+                        ? "ring-2 ring-blue-500"
+                        : ""
+                    } dark:bg-gray-800`}>
+                    <CardHeader>
+                      <CardTitle className="dark:text-white">
+                        Matchup {matchupIndex + 1}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-col space-y-2">
+                        <Button
+                          onClick={() => advanceWinner(matchupIndex, 0)}
+                          className={`w-full ${
+                            matchup.length === 1
+                              ? "bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800"
+                              : "dark:bg-gray-700"
+                          } dark:text-white`}
+                          disabled={
+                            matchup.length === 1 ||
+                            matchupIndex !== activeMatchup
+                          }>
+                          {matchup[0]}
+                        </Button>
+                        {matchup[1] && (
+                          <Button
+                            onClick={() => advanceWinner(matchupIndex, 1)}
+                            className="w-full dark:bg-gray-700 dark:text-white"
+                            disabled={matchupIndex !== activeMatchup}>
+                            {matchup[1]}
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </ThemeProvider>
