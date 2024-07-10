@@ -14,6 +14,10 @@ const initialBracket = [
   ["Tacos", "Burgers"],
   ["Pasta", "Salad"],
   ["Steak", "Curry"],
+  ["Ramen", "Pho"],
+  ["BBQ", "Fried Chicken"],
+  ["Dim Sum", "Falafel"],
+  ["Pad Thai", "Biryani"],
 ];
 
 const WinnerScreen = ({ winner, onRestart }) => {
@@ -110,7 +114,7 @@ const BracketApp = () => {
           key={clockKey}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {currentRound.map((matchup, matchupIndex) => (
           <Card
             key={matchupIndex}
@@ -121,10 +125,10 @@ const BracketApp = () => {
               <CardTitle>Matchup {matchupIndex + 1}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex justify-between">
+              <div className="flex flex-col space-y-2">
                 <Button
                   onClick={() => advanceWinner(matchupIndex, 0)}
-                  className="w-full mr-2"
+                  className="w-full"
                   disabled={
                     matchup.length === 1 || matchupIndex !== activeMatchup
                   }>
@@ -133,7 +137,7 @@ const BracketApp = () => {
                 {matchup[1] && (
                   <Button
                     onClick={() => advanceWinner(matchupIndex, 1)}
-                    className="w-full ml-2"
+                    className="w-full"
                     disabled={matchupIndex !== activeMatchup}>
                     {matchup[1]}
                   </Button>
