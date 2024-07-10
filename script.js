@@ -1,3 +1,6 @@
+// TODO: Add Google/Apple Maps links to restaurant
+// TODO: Display remaining choices in a bracket instead of a list
+
 const inputSection = document.getElementById("inputSection");
 const bracketSection = document.getElementById("bracketSection");
 const inputsContainer = document.getElementById("inputs");
