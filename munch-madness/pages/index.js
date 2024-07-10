@@ -154,7 +154,11 @@ const BracketApp = () => {
                   <div className="flex flex-col space-y-2">
                     <Button
                       onClick={() => advanceWinner(matchupIndex, 0)}
-                      className="w-full dark:bg-gray-700 dark:text-white"
+                      className={`w-full ${
+                        matchup.length === 1
+                          ? "bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800"
+                          : "dark:bg-gray-700"
+                      } dark:text-white`}
                       disabled={
                         matchup.length === 1 || matchupIndex !== activeMatchup
                       }>
