@@ -5,12 +5,18 @@ body {
   background-color: #1a1a1a;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
@@ -26,6 +32,13 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   margin-bottom: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#bracketSection {
+  overflow: hidden;
 }
 
 input[type="text"] {
@@ -66,9 +79,10 @@ button:hover {
 #bracket {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  height: auto;
-  overflow-x: auto;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .round {
@@ -82,13 +96,14 @@ button:hover {
 .matchup {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 10px 0;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 5px 0;
 }
 
 .choice {
   padding: 10px;
-  margin: 5px 0;
+  margin: 2px 0;
   background-color: #333;
   border-radius: 4px;
   cursor: pointer;
@@ -108,36 +123,17 @@ button:hover {
   color: white;
 }
 
-.round-16 .matchup {
-  height: 60px;
-}
-.round-8 .matchup {
-  height: 120px;
-}
-.round-4 .matchup {
-  height: 240px;
-}
-.round-2 .matchup {
-  height: 480px;
-}
-.round-1 .matchup {
-  height: 60px;
-}
-
 @media (max-width: 768px) {
   #bracket {
     flex-direction: column;
     align-items: center;
+    height: auto;
   }
   .round {
     width: 90%;
     margin-bottom: 20px;
   }
-  .round-16 .matchup,
-  .round-8 .matchup,
-  .round-4 .matchup,
-  .round-2 .matchup,
-  .round-1 .matchup {
+  .matchup {
     height: auto;
   }
 }
