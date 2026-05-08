@@ -18,6 +18,7 @@ export const DEFAULT_FOODS = [
 ]
 
 export const ROUND_NAMES = ['Round of 16', 'Quarterfinals', 'Semifinals', 'Championship']
+export const SHORT_ROUND_NAMES = ['R16', 'QF', 'SF', 'Final']
 
 // Build initial bracket: pair foods as [1v16, 8v9, 5v12, 4v13, 6v11, 3v14, 7v10, 2v15]
 // Standard March Madness seeding order
@@ -41,6 +42,28 @@ export function advanceRound(rounds) {
     next.push({ top: winners[i], bottom: winners[i + 1], winner: null })
   }
   return [...rounds, next]
+}
+
+// Returns all 4 display rounds, using TBD placeholders for unplayed rounds
+export function buildDisplayRounds(rounds, total = 4) {
+  return Array.from({ length: total }, (_, r) => {
+    const count = Math.pow(2, total - 1 - r)
+    if (rounds[r]) return rounds[r]
+    return Array.from({ length: count }, () => ({ top: null, bottom: null, winner: null }))
+  })
+}
+
+// Auto-fills remaining unpicked matchups in roundIndex with random winners
+export function autoPickRemainder(rounds, roundIndex) {
+  const updated = rounds.map((round, ri) => {
+    if (ri !== roundIndex) return round
+    return round.map(m => m.winner ? m : { ...m, winner: Math.random() < 0.5 ? m.top : m.bottom })
+  })
+  const done = updated[roundIndex].every(m => m.winner)
+  if (done && roundIndex === updated.length - 1 && updated[roundIndex].length > 1) {
+    return advanceRound(updated)
+  }
+  return updated
 }
 
 export function pickWinner(rounds, roundIndex, matchupIndex, food) {

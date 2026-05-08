@@ -1,0 +1,23 @@
+.shot-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.shot-clock-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.shot-clock.urgent {
+  animation: pulse-clock 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-clock {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
