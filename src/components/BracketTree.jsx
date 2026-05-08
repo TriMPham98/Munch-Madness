@@ -165,7 +165,7 @@ function Slot({ food, winner }) {
   return (
     <div className={`bt-slot ${won ? 'won' : ''} ${lost ? 'lost' : ''} ${!food ? 'tbd' : ''}`}>
       {food
-        ? <><span className="bt-emoji">{food.emoji}</span><span className="bt-name">{food.name}</span></>
+        ? <><span className="bt-seed">{food.id}</span><span className="bt-emoji">{food.emoji}</span><span className="bt-name">{food.name}</span></>
         : <span className="bt-tbd">TBD</span>
       }
     </div>

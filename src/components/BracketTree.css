@@ -67,6 +67,17 @@
 .bt-slot.lost { opacity: 0.22; }
 .bt-slot.tbd { justify-content: center; }
 
+.bt-seed {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #3a3a3a;
+  min-width: 14px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bt-slot.won .bt-seed { color: #2d6b3a; }
+
 .bt-emoji {
   font-size: 0.9rem;
   flex-shrink: 0;
