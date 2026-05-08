@@ -1,6 +1,6 @@
 import './FaceOff.css'
 
-const ROUND_NAMES = ['Round of 16', 'Quarterfinals', 'Semifinals', 'Championship']
+const ROUND_NAMES = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Championship']
 
 export default function FaceOff({ rounds, activeRound, focusedIdx, onPick, onNav }) {
   const round = rounds[activeRound]
