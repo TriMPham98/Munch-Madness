@@ -1,29 +1,23 @@
 .bt-scroll {
   overflow-x: auto;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
 
 .bt-headers {
   position: relative;
-  height: 32px;
-  margin-bottom: 10px;
+  height: 28px;
+  margin-bottom: 8px;
   min-width: max-content;
 }
 
 .bt-header {
   position: absolute;
   text-align: center;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #444;
-  top: 0;
-  padding-top: 4px;
-}
-
-.bt-header.active {
-  color: #f97316;
+  color: #333;
 }
 
 .bt-inner {
@@ -33,139 +27,93 @@
 
 .bt-svg {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   pointer-events: none;
 }
 
-/* Cards */
 .bt-card {
   position: absolute;
-  border-radius: 8px;
+  border-radius: 7px;
   overflow: visible;
   display: flex;
   flex-direction: column;
-  border: 1px solid #222;
-  background: #181818;
+  background: #141414;
+  border: 1px solid #1e1e1e;
   transition: border-color 0.2s;
 }
 
-.bt-card.current {
+.bt-card.cur {
   border-color: #2a2a2a;
 }
 
-.bt-card.current:hover {
-  border-color: #333;
+.bt-card.highlighted {
+  border-color: #f97316 !important;
+  box-shadow: 0 0 0 2px rgba(249,115,22,0.2);
 }
 
-.bt-card.past {
-  border-color: #1e1e1e;
-}
-
-.bt-card.future {
-  border-color: #1a1a1a;
-  opacity: 0.5;
+.bt-card.final {
+  border-color: #2a2a2a;
 }
 
 .bt-sep {
   height: 1px;
-  background: #222;
+  background: #1e1e1e;
   flex-shrink: 0;
 }
 
-/* Slots */
 .bt-slot {
   flex: 1;
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 0 8px;
-  background: transparent;
-  border: none;
-  color: #d0d0d0;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  font-family: inherit;
+  padding: 0 7px;
   min-width: 0;
-  transition: background 0.12s;
-  border-radius: 0;
 }
 
-.bt-slot:disabled {
-  cursor: default;
-}
-
-.bt-slot:not(:disabled):not(.won):not(.lost):hover {
-  background: #1f1208;
-}
-
-.bt-slot.won {
-  color: #86efac;
-  background: #0a1a0c;
-}
-
-.bt-slot.lost {
-  opacity: 0.28;
-}
-
-.bt-slot.tbd {
-  justify-content: center;
-  cursor: default;
-}
-
-.bt-seed {
-  font-size: 0.58rem;
-  font-weight: 700;
-  color: #444;
-  min-width: 14px;
-  flex-shrink: 0;
-}
+.bt-slot.won { background: #071209; }
+.bt-slot.lost { opacity: 0.22; }
+.bt-slot.tbd { justify-content: center; }
 
 .bt-emoji {
-  font-size: 1rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
   line-height: 1;
 }
 
 .bt-name {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 600;
+  color: #bbb;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
 }
 
+.bt-slot.won .bt-name { color: #6ee7a0; }
+.bt-slot.lost .bt-name { color: #555; }
+
 .bt-tbd {
-  font-size: 0.7rem;
-  color: #333;
+  font-size: 0.65rem;
+  color: #2a2a2a;
   font-style: italic;
 }
 
-.bt-check {
-  color: #22c55e;
-  font-size: 0.75rem;
-  flex-shrink: 0;
-}
-
-/* Upset badge */
 .upset-badge {
   position: absolute;
-  top: -10px;
-  right: 6px;
+  top: -9px;
+  right: 4px;
   background: #ef4444;
   color: white;
-  font-size: 0.55rem;
-  font-weight: 800;
+  font-size: 0.48rem;
+  font-weight: 900;
   letter-spacing: 1px;
-  padding: 2px 5px;
-  border-radius: 4px;
+  padding: 1px 4px;
+  border-radius: 3px;
   z-index: 10;
-  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1);
 }
 
 @keyframes pop-in {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
 }

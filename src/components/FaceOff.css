@@ -1,0 +1,115 @@
+.faceoff {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.fo-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fo-meta {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.fo-arrow {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #555;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: all 0.1s;
+}
+
+.fo-arrow:hover:not(:disabled) {
+  border-color: #555;
+  color: #ccc;
+}
+
+.fo-arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.fo-matchup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fo-vs {
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.fo-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #111;
+  border: 2px solid #222;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: #d0d0d0;
+  font-family: inherit;
+  transition: all 0.15s;
+  min-width: 0;
+}
+
+.fo-btn:hover:not(:disabled) {
+  border-color: #f97316;
+  background: #1a0d02;
+  color: #fff;
+}
+
+.fo-btn.won {
+  border-color: #22c55e;
+  background: #071a0a;
+  color: #86efac;
+  cursor: default;
+}
+
+.fo-btn.lost {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.fo-emoji {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.fo-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fo-picked {
+  font-size: 0.75rem;
+  color: #22c55e;
+  font-weight: 600;
+}
