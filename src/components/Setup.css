@@ -1,0 +1,98 @@
+.setup {
+  text-align: center;
+}
+
+.setup h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.setup-hint {
+  color: #888;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.food-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.15s;
+}
+
+.food-card:hover {
+  border-color: #f97316;
+}
+
+.seed {
+  font-size: 0.7rem;
+  color: #555;
+  font-weight: 600;
+  align-self: flex-end;
+}
+
+.food-emoji {
+  font-size: 2.2rem;
+}
+
+.food-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #e0e0e0;
+  text-align: center;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.food-name:hover {
+  border-color: #444;
+}
+
+.food-name-input {
+  width: 100%;
+  background: #111;
+  border: 1px solid #f97316;
+  border-radius: 4px;
+  color: #f0f0f0;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  text-align: center;
+  outline: none;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 48px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.start-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.start-btn:active {
+  transform: translateY(0);
+}
