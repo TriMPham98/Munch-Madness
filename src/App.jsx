@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { DEFAULT_FOODS, buildInitialBracket, pickWinner, autoPickRemainder } from './bracket.js'
+import { DEFAULT_FOODS, buildInitialBracket, pickWinner, autoPickOne } from './bracket.js'
 import Setup from './components/Setup.jsx'
 import BracketTree from './components/BracketTree.jsx'
 import ShotClock from './components/ShotClock.jsx'
@@ -8,6 +8,13 @@ import Winner from './components/Winner.jsx'
 import './App.css'
 
 const SHOT_SECS = 24
+
+const buzzerAudio = new Audio('/basketballBuzzer.mp3')
+
+function playBuzzer() {
+  buzzerAudio.currentTime = 0
+  buzzerAudio.play().catch(() => {})
+}
 
 export default function App() {
   const [screen, setScreen] = useState('setup')
@@ -32,13 +39,17 @@ export default function App() {
 
   const handleTimeUp = useCallback(() => {
     if (!rounds) return
+    playBuzzer()
     setBuzzer(true)
     setTimeout(() => setBuzzer(false), 1200)
-    const updated = autoPickRemainder(rounds, activeRound)
+    const updated = autoPickOne(rounds, activeRound, focusedIdx)
     setRounds(updated)
+    setShotSecs(SHOT_SECS)
+    const next = updated[activeRound].findIndex((m, i) => i > focusedIdx && !m.winner)
+    setFocusedIdx(next !== -1 ? next : focusedIdx)
     const last = updated[updated.length - 1]
     if (last.length === 1 && last[0].winner) setTimeout(() => setScreen('winner'), 1400)
-  }, [rounds, activeRound])
+  }, [rounds, activeRound, focusedIdx])
 
   useEffect(() => {
     if (screen !== 'bracket') return
@@ -59,6 +70,7 @@ export default function App() {
   function handlePick(roundIndex, matchupIndex, food) {
     const updated = pickWinner(rounds, roundIndex, matchupIndex, food)
     setRounds(updated)
+    setShotSecs(SHOT_SECS)  // reset clock after every pick
     // Advance focus to next unpicked
     const next = updated[roundIndex].findIndex((m, i) => i > matchupIndex && !m.winner)
     setFocusedIdx(next !== -1 ? next : matchupIndex)

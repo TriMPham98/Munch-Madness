@@ -1,7 +1,7 @@
 .app {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px 16px;
+  width: 100%;
+  padding: 24px 28px;
+  box-sizing: border-box;
 }
 
 .app-header {

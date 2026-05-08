@@ -1,13 +1,10 @@
-.bt-scroll {
-  overflow-x: auto;
-  padding-bottom: 16px;
+.bt-outer {
+  width: 100%;
 }
 
 .bt-headers {
   position: relative;
-  height: 28px;
   margin-bottom: 8px;
-  min-width: max-content;
 }
 
 .bt-header {
@@ -18,11 +15,11 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #333;
+  top: 0;
 }
 
 .bt-inner {
   position: relative;
-  min-width: max-content;
 }
 
 .bt-svg {
@@ -39,21 +36,17 @@
   flex-direction: column;
   background: #141414;
   border: 1px solid #1e1e1e;
-  transition: border-color 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.bt-card.cur {
-  border-color: #2a2a2a;
-}
+.bt-card.cur { border-color: #2a2a2a; }
 
 .bt-card.highlighted {
   border-color: #f97316 !important;
-  box-shadow: 0 0 0 2px rgba(249,115,22,0.2);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.18);
 }
 
-.bt-card.final {
-  border-color: #2a2a2a;
-}
+.bt-card.is-final { border-color: #2d2d2d; }
 
 .bt-sep {
   height: 1px;
@@ -66,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 0 7px;
+  padding: 0 8px;
   min-width: 0;
 }
 
@@ -81,7 +74,7 @@
 }
 
 .bt-name {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: #bbb;
   white-space: nowrap;
@@ -90,11 +83,11 @@
 }
 
 .bt-slot.won .bt-name { color: #6ee7a0; }
-.bt-slot.lost .bt-name { color: #555; }
+.bt-slot.lost .bt-name { color: #444; }
 
 .bt-tbd {
-  font-size: 0.65rem;
-  color: #2a2a2a;
+  font-size: 0.62rem;
+  color: #282828;
   font-style: italic;
 }
 
@@ -104,13 +97,13 @@
   right: 4px;
   background: #ef4444;
   color: white;
-  font-size: 0.48rem;
+  font-size: 0.45rem;
   font-weight: 900;
   letter-spacing: 1px;
   padding: 1px 4px;
   border-radius: 3px;
   z-index: 10;
-  animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  animation: pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes pop-in {

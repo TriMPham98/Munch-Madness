@@ -53,6 +53,14 @@ export function buildDisplayRounds(rounds, total = 4) {
   })
 }
 
+// Auto-picks only the single matchup at matchupIndex with a random winner
+export function autoPickOne(rounds, roundIndex, matchupIndex) {
+  const matchup = rounds[roundIndex]?.[matchupIndex]
+  if (!matchup || matchup.winner) return rounds
+  const winner = Math.random() < 0.5 ? matchup.top : matchup.bottom
+  return pickWinner(rounds, roundIndex, matchupIndex, winner)
+}
+
 // Auto-fills remaining unpicked matchups in roundIndex with random winners
 export function autoPickRemainder(rounds, roundIndex) {
   const updated = rounds.map((round, ri) => {
