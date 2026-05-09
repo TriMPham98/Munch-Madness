@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { DEFAULT_FOODS, buildInitialBracket, pickWinner, autoPickOne } from './bracket.js'
+import { DEFAULT_FOODS, buildInitialBracket, pickWinner, autoPickOne, ROUND_NAMES } from './bracket.js'
+
+const STORAGE_KEY = 'munch-madness-v1'
+const load = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null')
 import Setup from './components/Setup.jsx'
 import TierList from './components/TierList.jsx'
 import BracketTree from './components/BracketTree.jsx'
@@ -18,17 +21,23 @@ function playBuzzer() {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState('setup')
-  const [setupFoods, setSetupFoods] = useState(null)
-  const [rounds, setRounds] = useState(null)
-  const [shotSecs, setShotSecs] = useState(SHOT_SECS)
-  const [buzzer, setBuzzer] = useState(false)
-  const [focusedIdx, setFocusedIdx] = useState(0)
-  const roundsLenRef = useRef(0)
+  const [screen,     setScreen]     = useState(() => load()?.screen     ?? 'setup')
+  const [setupFoods, setSetupFoods] = useState(() => load()?.setupFoods ?? null)
+  const [rounds,     setRounds]     = useState(() => load()?.rounds     ?? null)
+  const [focusedIdx, setFocusedIdx] = useState(() => load()?.focusedIdx ?? 0)
+  const [shotSecs,   setShotSecs]   = useState(SHOT_SECS)
+  const [buzzer,     setBuzzer]     = useState(false)
+  const [transitionRound, setTransitionRound] = useState(null)
+  const roundsLenRef = useRef(load()?.rounds?.length ?? 0)
 
   const activeRound = rounds ? rounds.length - 1 : 0
 
-  // Reset clock + focus when new round unlocks
+  // Persist state to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ screen, rounds, setupFoods, focusedIdx }))
+  }, [screen, rounds, setupFoods, focusedIdx])
+
+  // Reset clock + focus when new round unlocks; show transition splash for round 2+
   useEffect(() => {
     if (!rounds) return
     if (rounds.length !== roundsLenRef.current) {
@@ -36,6 +45,11 @@ export default function App() {
       setShotSecs(SHOT_SECS)
       const first = rounds[rounds.length - 1].findIndex(m => !m.winner)
       setFocusedIdx(first === -1 ? 0 : first)
+      if (rounds.length > 1) {
+        const name = ROUND_NAMES[rounds.length - 1] ?? `Round ${rounds.length}`
+        setTransitionRound(name)
+        setTimeout(() => setTransitionRound(null), 2000)
+      }
     }
   }, [rounds?.length])
 
@@ -54,11 +68,11 @@ export default function App() {
   }, [rounds, activeRound, focusedIdx])
 
   useEffect(() => {
-    if (screen !== 'bracket') return
+    if (screen !== 'bracket' || transitionRound) return
     if (shotSecs <= 0) { handleTimeUp(); return }
     const id = setTimeout(() => setShotSecs(s => s - 1), 1000)
     return () => clearTimeout(id)
-  }, [shotSecs, screen, handleTimeUp])
+  }, [shotSecs, screen, transitionRound, handleTimeUp])
 
   function handleSetupDone(foods) {
     setSetupFoods(foods)
@@ -92,6 +106,7 @@ export default function App() {
   }
 
   function handleReset() {
+    localStorage.removeItem(STORAGE_KEY)
     setScreen('setup')
     setSetupFoods(null)
     setRounds(null)
@@ -106,6 +121,13 @@ export default function App() {
   return (
     <div className="app">
       {buzzer && <div className="buzzer-flash">BUZZER! 🚨</div>}
+
+      {transitionRound && (
+        <div className="round-transition">
+          <span className="rt-label">Next up</span>
+          <div className="rt-name">{transitionRound}</div>
+        </div>
+      )}
 
       <header className="app-header">
         <h1>🏆 Munch Madness</h1>
