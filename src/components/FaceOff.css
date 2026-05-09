@@ -9,8 +9,7 @@
 .fo-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  justify-content: center;
 }
 
 .fo-meta {
@@ -21,35 +20,6 @@
   color: #555;
   text-align: center;
   line-height: 1.4;
-  flex: 1;
-}
-
-.fo-arrow {
-  background: transparent;
-  border: 1px solid #2a2a2a;
-  color: #555;
-  border-radius: 4px;
-  width: 26px;
-  height: 26px;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-  transition: all 0.1s;
-  flex-shrink: 0;
-}
-
-.fo-arrow:hover:not(:disabled) {
-  border-color: #555;
-  color: #ccc;
-}
-
-.fo-arrow:disabled {
-  opacity: 0.25;
-  cursor: default;
 }
 
 .fo-matchup {

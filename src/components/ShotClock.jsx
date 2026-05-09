@@ -57,7 +57,7 @@ export default function ShotClock({ seconds }) {
 
   return (
     <div className={`sc-wrap ${urgent ? 'urgent' : ''}`}>
-      <svg width={SVG_W} height={SVG_H} className="sc-svg">
+      <svg width={Math.round(SVG_W * 1.4)} height={Math.round(SVG_H * 1.4)} viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="sc-svg">
         <rect width={SVG_W} height={SVG_H} rx={6} fill="#000" />
         <g transform={`translate(${PAD},${PAD})`}>
           <Digit n={tens} color={color} />

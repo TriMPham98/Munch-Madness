@@ -14,9 +14,7 @@ export default function FaceOff({ rounds, activeRound, focusedIdx, onPick, onNav
   return (
     <div className="faceoff">
       <div className="fo-nav">
-        <button className="fo-arrow" onClick={() => onNav(-1)} disabled={focusedIdx === 0}>‹</button>
         <span className="fo-meta">{roundName}<br />Game {focusedIdx + 1} of {total}</span>
-        <button className="fo-arrow" onClick={() => onNav(1)} disabled={focusedIdx === total - 1}>›</button>
       </div>
 
       <div className="fo-matchup">

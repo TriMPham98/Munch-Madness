@@ -137,7 +137,7 @@ export default function App() {
       )}
 
       <header className="app-header">
-        <h1>🏆 Munch Madness</h1>
+        <h1 className={screen !== 'setup' ? 'clickable' : ''} onClick={screen !== 'setup' ? handleReset : undefined}>🏆 Munch Madness</h1>
         <p className="tagline">March Madness — for dinner</p>
       </header>
 
@@ -151,15 +151,17 @@ export default function App() {
         <div className="bracket-layout">
           <BracketTree side="left"  rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
           <div className="bracket-center">
-            <ShotClock seconds={shotSecs} />
-            <FaceOff
-              rounds={rounds}
-              activeRound={activeRound}
-              focusedIdx={focusedIdx}
-              onPick={handlePick}
-              onNav={handleNav}
-            />
-            <button className="reset-btn" onClick={handleReset}>↩</button>
+            <div className="center-card">
+              <ShotClock seconds={shotSecs} />
+            </div>
+            <div className="center-card">
+              <FaceOff
+                rounds={rounds}
+                activeRound={activeRound}
+                focusedIdx={focusedIdx}
+                onPick={handlePick}
+              />
+            </div>
           </div>
           <BracketTree side="right" rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
         </div>

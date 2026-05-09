@@ -19,6 +19,15 @@
   background-clip: text;
 }
 
+.app-header h1.clickable {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.app-header h1.clickable:hover {
+  opacity: 0.75;
+}
+
 .app-header .tagline {
   color: #888;
   font-size: 1rem;
@@ -36,32 +45,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  padding: 14px 10px;
-  background: #0e0e0e;
-  border: 1px solid #1e1e1e;
-  border-radius: 14px;
+  padding: 0;
+  min-height: 680px;
   position: sticky;
   top: 16px;
 }
 
-.reset-btn {
-  background: transparent;
-  border: 1px solid #222;
-  color: #444;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 1rem;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-  flex-shrink: 0;
+.center-card {
+  width: 100%;
+  background: #0e0e0e;
+  border: 1px solid #1e1e1e;
+  border-radius: 14px;
+  padding: 16px 10px;
+  display: flex;
+  justify-content: center;
 }
 
-.reset-btn:hover {
-  border-color: #555;
-  color: #ccc;
-}
 
 /* Buzzer flash overlay */
 .buzzer-flash {
