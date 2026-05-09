@@ -53,8 +53,7 @@ export default function ShotClock({ seconds }) {
   const tens = Math.floor(s / 10)
   const ones = s % 10
   const urgent = s <= 5
-  const warn = s <= 10
-  const color = urgent ? '#ef4444' : warn ? '#f97316' : '#ffffff'
+  const color = urgent ? '#ef4444' : '#f97316'
 
   return (
     <div className={`sc-wrap ${urgent ? 'urgent' : ''}`}>
