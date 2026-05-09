@@ -122,6 +122,37 @@
   text-overflow: ellipsis;
 }
 
+/* ── Unranked pool ── */
+.tl-pool {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-height: 72px;
+  border-radius: 8px;
+  border: 2px dashed #2a2a2a;
+  background: #0e0e0e;
+  padding: 10px;
+  transition: border-color 0.12s;
+}
+
+.tl-pool.dragover {
+  border-color: #f97316;
+  background: #1e1508;
+}
+
+.tl-pool-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding-top: 6px;
+  min-width: 52px;
+  text-align: center;
+}
+
 .tl-insert-line {
   width: 2px;
   min-height: 32px;
