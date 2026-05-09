@@ -98,6 +98,7 @@
   z-index: 200;
   animation: rt-fade 2s ease forwards;
   pointer-events: all;
+  user-select: none;
 }
 
 .rt-label {
