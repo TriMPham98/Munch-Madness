@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { DEFAULT_FOODS, buildInitialBracket, pickWinner, autoPickOne } from './bracket.js'
 import Setup from './components/Setup.jsx'
+import TierList from './components/TierList.jsx'
 import BracketTree from './components/BracketTree.jsx'
 import ShotClock from './components/ShotClock.jsx'
 import FaceOff from './components/FaceOff.jsx'
@@ -18,6 +19,7 @@ function playBuzzer() {
 
 export default function App() {
   const [screen, setScreen] = useState('setup')
+  const [setupFoods, setSetupFoods] = useState(null)
   const [rounds, setRounds] = useState(null)
   const [shotSecs, setShotSecs] = useState(SHOT_SECS)
   const [buzzer, setBuzzer] = useState(false)
@@ -58,8 +60,13 @@ export default function App() {
     return () => clearTimeout(id)
   }, [shotSecs, screen, handleTimeUp])
 
-  function handleStart(foods) {
-    const bracket = buildInitialBracket(foods)
+  function handleSetupDone(foods) {
+    setSetupFoods(foods)
+    setScreen('seeding')
+  }
+
+  function handleStart(rankedFoods) {
+    const bracket = buildInitialBracket(rankedFoods)
     setRounds(bracket)
     roundsLenRef.current = 1
     setShotSecs(SHOT_SECS)
@@ -86,6 +93,7 @@ export default function App() {
 
   function handleReset() {
     setScreen('setup')
+    setSetupFoods(null)
     setRounds(null)
     setShotSecs(SHOT_SECS)
     setFocusedIdx(0)
@@ -104,7 +112,11 @@ export default function App() {
         <p className="tagline">March Madness — for dinner</p>
       </header>
 
-      {screen === 'setup' && <Setup foods={DEFAULT_FOODS} onStart={handleStart} />}
+      {screen === 'setup' && <Setup foods={DEFAULT_FOODS} onStart={handleSetupDone} />}
+
+      {screen === 'seeding' && setupFoods && (
+        <TierList foods={setupFoods} onStart={handleStart} />
+      )}
 
       {screen === 'bracket' && rounds && (
         <>

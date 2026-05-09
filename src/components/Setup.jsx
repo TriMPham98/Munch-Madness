@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './Setup.css'
 
 export default function Setup({ foods, onStart }) {
   const [items, setItems] = useState(foods.map(f => ({ ...f })))
   const [editingId, setEditingId] = useState(null)
   const [editValue, setEditValue] = useState('')
+  const [overIdx, setOverIdx] = useState(null)
+  const dragIdx = useRef(null)
 
   function startEdit(food) {
     setEditingId(food.id)
@@ -21,13 +23,50 @@ export default function Setup({ foods, onStart }) {
     if (e.key === 'Escape') setEditingId(null)
   }
 
+  function onDragStart(e, idx) {
+    dragIdx.current = idx
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  function onDragOver(e, idx) {
+    e.preventDefault()
+    setOverIdx(idx)
+  }
+
+  function onDrop(e, idx) {
+    e.preventDefault()
+    const from = dragIdx.current
+    if (from === null || from === idx) { setOverIdx(null); return }
+    setItems(prev => {
+      const next = [...prev]
+      const [moved] = next.splice(from, 1)
+      next.splice(idx, 0, moved)
+      return next
+    })
+    dragIdx.current = null
+    setOverIdx(null)
+  }
+
+  function onDragEnd() {
+    dragIdx.current = null
+    setOverIdx(null)
+  }
+
   return (
     <div className="setup">
       <h2>Your Contenders</h2>
-      <p className="setup-hint">Click any food name to rename it, then hit Start when you're ready.</p>
+      <p className="setup-hint">Click a name to rename it. Drag cards to reorder seeds.</p>
       <div className="food-grid">
         {items.map((food, i) => (
-          <div key={food.id} className="food-card">
+          <div
+            key={food.id}
+            className={`food-card ${overIdx === i ? 'drag-over' : ''}`}
+            draggable={editingId !== food.id}
+            onDragStart={e => onDragStart(e, i)}
+            onDragOver={e => onDragOver(e, i)}
+            onDrop={e => onDrop(e, i)}
+            onDragEnd={onDragEnd}
+          >
             <span className="seed">#{i + 1}</span>
             <span className="food-emoji">{food.emoji}</span>
             {editingId === food.id ? (
@@ -46,7 +85,7 @@ export default function Setup({ foods, onStart }) {
         ))}
       </div>
       <button className="start-btn" onClick={() => onStart(items)}>
-        Start the Bracket
+        Seed Your Bracket →
       </button>
     </div>
   )
