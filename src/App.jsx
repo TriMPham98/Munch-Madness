@@ -14,10 +14,16 @@ import './App.css'
 const SHOT_SECS = 24
 
 const buzzerAudio = new Audio('/basketballBuzzer.mp3')
+const tickAudio   = new Audio('/clockTick.mp3')
 
 function playBuzzer() {
   buzzerAudio.currentTime = 0
   buzzerAudio.play().catch(() => {})
+}
+
+function playTick() {
+  tickAudio.currentTime = 0
+  tickAudio.play().catch(() => {})
 }
 
 export default function App() {
@@ -70,6 +76,7 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'bracket' || transitionRound) return
     if (shotSecs <= 0) { handleTimeUp(); return }
+    playTick()
     const id = setTimeout(() => setShotSecs(s => s - 1), 1000)
     return () => clearTimeout(id)
   }, [shotSecs, screen, transitionRound, handleTimeUp])

@@ -1,41 +1,91 @@
 .setup {
-  text-align: center;
-}
-
-.setup h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.setup-hint {
-  color: #888;
-  margin-bottom: 28px;
-  font-size: 0.95rem;
-}
-
-.food-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 12px;
-  margin-bottom: 36px;
-}
-
-.food-card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 16px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 28px;
+  padding-bottom: 36px;
+}
+
+/* ── Hero ── */
+.setup-hero {
+  text-align: center;
+}
+
+.setup-headline {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #f0f0f0;
+  margin: 0 0 6px;
+}
+
+.setup-tagline {
+  color: #555;
+  font-size: 0.88rem;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Divisions: 4 columns, one per division ── */
+.divisions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px 32px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.division-section {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  transition: border-color 0.15s, background 0.15s;
+}
+
+.division-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 2px 10px;
+  border-bottom: 1px solid #282828;
+  margin-bottom: 2px;
+}
+
+.division-emoji {
+  font-size: 1.1rem;
+}
+
+.division-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #f97316;
+  white-space: nowrap;
+}
+
+/* ── Food rows ── */
+.food-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.food-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #141414;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
   cursor: grab;
+  transition: border-color 0.12s, background 0.12s;
 }
 
 .food-card:hover {
-  border-color: #f97316;
+  border-color: #333;
+  background: #1a1a1a;
 }
 
 .food-card.drag-over {
@@ -44,54 +94,63 @@
 }
 
 .seed {
-  font-size: 0.7rem;
-  color: #555;
-  font-weight: 600;
-  align-self: flex-end;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f97316;
+  min-width: 22px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .food-emoji {
-  font-size: 2.2rem;
+  font-size: 1.35rem;
+  flex-shrink: 0;
 }
 
 .food-name {
   font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
+  font-weight: 500;
   color: #e0e0e0;
-  text-align: center;
-  padding: 2px 4px;
+  cursor: pointer;
+  flex: 1;
+  padding: 1px 4px;
   border-radius: 4px;
   border: 1px solid transparent;
-  transition: border-color 0.15s;
+  transition: border-color 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .food-name:hover {
-  border-color: #444;
+  border-color: #333;
 }
 
 .food-name-input {
-  width: 100%;
+  flex: 1;
   background: #111;
   border: 1px solid #f97316;
   border-radius: 4px;
   color: #f0f0f0;
   font-size: 0.9rem;
-  padding: 2px 6px;
-  text-align: center;
+  padding: 1px 6px;
   outline: none;
+  min-width: 0;
 }
 
+/* ── CTA ── */
 .start-btn {
   background: linear-gradient(135deg, #f97316, #ef4444);
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 14px 48px;
+  border-radius: 10px;
+  padding: 15px 60px;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.02em;
 }
 
 .start-btn:hover {
