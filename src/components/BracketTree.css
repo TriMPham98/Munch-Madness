@@ -37,15 +37,33 @@
   flex-direction: column;
   background: #141414;
   border: 1px solid #1e1e1e;
+  border-left: 3px solid var(--div-color, #1e1e1e);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.bt-card.cur { border-color: #2a2a2a; }
+.bt-card.cur { border-color: #2a2a2a; border-left-color: var(--div-color, #2a2a2a); }
 
 .bt-card.highlighted {
   border-color: #f97316 !important;
   box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.18);
 }
+
+.bt-div-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.bt-div-emoji { font-size: 0.85rem; }
+.bt-div-name  { opacity: 0.85; }
 
 .bt-card.is-final { border-color: #2d2d2d; }
 

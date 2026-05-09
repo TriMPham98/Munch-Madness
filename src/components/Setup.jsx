@@ -1,17 +1,13 @@
 import { useState, useRef } from 'react'
+import { DIVISIONS } from '../bracket.js'
 import './Setup.css'
 
-const DIVISION_ORDER = ['burger', 'chicken', 'pizza', 'street']
-const DIVISION_META = {
-  burger:  { name: 'Burger Bracket',      emoji: '🍔' },
-  chicken: { name: 'Cluckers Conference', emoji: '🍗' },
-  pizza:   { name: 'The Sauce District',  emoji: '🍕' },
-  street:  { name: 'Street Eats Region',  emoji: '🌮' },
-}
+const DIVISION_ORDER = DIVISIONS.map(d => d.key)
+const DIVISION_META = Object.fromEntries(DIVISIONS.map(d => [d.key, d]))
 
 function initDivisions(foods) {
-  const d = { burger: [], chicken: [], pizza: [], street: [] }
-  foods.forEach(f => d[f.division].push({ ...f }))
+  const d = Object.fromEntries(DIVISION_ORDER.map(k => [k, []]))
+  foods.forEach(f => d[f.division]?.push({ ...f }))
   return d
 }
 
@@ -79,15 +75,10 @@ export default function Setup({ foods, onStart }) {
     setOverInfo(null)
   }
 
-  // Global seed offset: burger 1-8, chicken 9-16, pizza 17-24, street 25-32
-  function seedOffset(div) {
-    return DIVISION_ORDER.indexOf(div) * 8
-  }
-
   function handleStart() {
-    const ranked = DIVISION_ORDER
-      .flatMap(div => divisions[div])
-      .map((f, i) => ({ ...f, seed: i + 1 }))
+    // Pass foods grouped by division, in the user's chosen order. bracket.js
+    // assigns within-division seeds (1-8) and packs each division into a quarter.
+    const ranked = DIVISION_ORDER.flatMap(div => divisions[div])
     onStart(ranked)
   }
 
@@ -95,19 +86,19 @@ export default function Setup({ foods, onStart }) {
     <div className="setup">
       <div className="setup-hero">
         <h2 className="setup-headline">Pick Your Dinner</h2>
-        <p className="setup-tagline">32 contenders · 4 divisions · one winner · drag to seed · click to rename</p>
+        <p className="setup-tagline">32 contenders · 4 divisions · seed 1–8 within each · drag to reorder · click to rename</p>
       </div>
 
       <div className="divisions-grid">
         {DIVISION_ORDER.map(div => {
-          const { name, emoji } = DIVISION_META[div]
-          const offset = seedOffset(div)
+          const { name, emoji, color } = DIVISION_META[div]
           const foods = divisions[div]
 
           return (
             <div
               key={div}
               className="division-section"
+              style={{ '--div-color': color }}
               onDragOver={e => { if (drag.current?.fromDiv === div) e.preventDefault() }}
               onDrop={e => onDrop(e, div)}
             >
@@ -125,7 +116,7 @@ export default function Setup({ foods, onStart }) {
                     onDragOver={e => onDragOver(e, div, i)}
                     onDragEnd={onDragEnd}
                   >
-                    <span className="seed">{offset + i + 1}</span>
+                    <span className="seed">{i + 1}</span>
                     <span className="food-emoji">{food.emoji}</span>
                     {editingId === food.id ? (
                       <input
@@ -148,7 +139,7 @@ export default function Setup({ foods, onStart }) {
       </div>
 
       <button className="start-btn" onClick={handleStart}>
-        Seed Your Bracket →
+        Start the Bracket →
       </button>
     </div>
   )

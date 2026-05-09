@@ -59,8 +59,12 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #f97316;
+  color: var(--div-color, #f97316);
   white-space: nowrap;
+}
+
+.division-header {
+  border-bottom-color: color-mix(in srgb, var(--div-color, #282828) 35%, #181818);
 }
 
 /* ── Food rows ── */
@@ -96,8 +100,8 @@
 .seed {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #f97316;
-  min-width: 22px;
+  color: var(--div-color, #f97316);
+  min-width: 18px;
   text-align: right;
   flex-shrink: 0;
 }

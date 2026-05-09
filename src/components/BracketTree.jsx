@@ -1,18 +1,21 @@
 import { useRef, useEffect, useState } from 'react'
-import { buildDisplayRounds } from '../bracket.js'
+import { buildDisplayRounds, DIVISIONS } from '../bracket.js'
 import './BracketTree.css'
 
 const N_COLS  = 4
 const N_HALF  = 8
 const CARD_H  = 62
 const UNIT_H  = 84
-const TOTAL_H = N_HALF * UNIT_H  // 672
+const LABEL_H = 20
+const TOTAL_H = N_HALF * UNIT_H + LABEL_H  // top-quarter label sits above first card
 
 const LEFT_HEADERS  = ['R32', 'R16', 'QF', 'SF']
 const RIGHT_HEADERS = ['SF', 'QF', 'R16', 'R32']
 
+const DIV_BY_KEY = Object.fromEntries(DIVISIONS.map(d => [d.key, d]))
+
 function cy(lr, li) {
-  return (2 * li + 1) * Math.pow(2, lr - 1) * UNIT_H
+  return (2 * li + 1) * Math.pow(2, lr - 1) * UNIT_H + LABEL_H
 }
 function cardTop(lr, li) { return cy(lr, li) - CARD_H / 2 }
 
@@ -26,8 +29,8 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
     return () => ro.disconnect()
   }, [])
 
-  const COL_W  = availW > 0 ? availW / N_COLS : 120
-  const CARD_W = COL_W * 0.80
+  const COL_W   = availW > 0 ? availW / N_COLS : 120
+  const CARD_W  = COL_W * 0.80
   const COL_GAP = COL_W - CARD_W
   const EDGE_PAD = COL_GAP / 2
 
@@ -46,6 +49,15 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
 
   const halfData = side === 'left' ? leftHalf : rightHalf
   const headers  = side === 'left' ? LEFT_HEADERS : RIGHT_HEADERS
+
+  // Quarter ordering: top-left=0, bottom-left=1, top-right=2, bottom-right=3
+  const topQuarterIdx    = side === 'left' ? 0 : 2
+  const bottomQuarterIdx = side === 'left' ? 1 : 3
+  const topDiv    = DIVISIONS[topQuarterIdx]
+  const bottomDiv = DIVISIONS[bottomQuarterIdx]
+
+  // R32 column x for the outermost cards (where labels sit)
+  const r32Col = side === 'left' ? 0 : 3
 
   const lines = []
   const accent = '#f97316', dim = '#252525'
@@ -82,6 +94,15 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
     for (let pi = 0; pi < halfData[lr].length; pi++) addLines(lr, pi)
   }
 
+  // Color a card by its matchup's division. Within a quarter both teams share
+  // a division. In SF/Final the two sides may differ; we leave those neutral.
+  function divFor(matchup) {
+    const t = matchup.top?.division
+    const b = matchup.bottom?.division
+    if (t && b && t !== b) return null
+    return DIV_BY_KEY[t || b] || null
+  }
+
   const cards = []
   halfData.forEach((round, lr) => {
     round.forEach((matchup, li) => {
@@ -96,10 +117,22 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
       }
       cards.push(
         <Card key={key} matchup={matchup} x={cardX} y={cardTop(lr, li)}
-          w={CARD_W} h={CARD_H} highlighted={key === focusedKey} active={lr === activeRound} />
+          w={CARD_W} h={CARD_H} division={divFor(matchup)}
+          highlighted={key === focusedKey} active={lr === activeRound} />
       )
     })
   })
+
+  // Division labels sit above the topmost R32 card of each quarter.
+  // Top quarter:    y = 0  (above first card; LABEL_H tall)
+  // Bottom quarter: y in the gap between cards 3 and 4 (cardTop(0,4) - LABEL_H)
+  const labels = []
+  if (availW > 0) {
+    labels.push(
+      <DivisionLabel key="top"    div={topDiv}    x={colX(r32Col)} y={0}                          w={CARD_W} />,
+      <DivisionLabel key="bottom" div={bottomDiv} x={colX(r32Col)} y={cardTop(0, 4) - LABEL_H}    w={CARD_W} />,
+    )
+  }
 
   return (
     <div ref={outerRef} className="bt-outer">
@@ -113,6 +146,7 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
       {availW > 0 && (
         <div className="bt-inner" style={{ width: availW, height: TOTAL_H }}>
           <svg className="bt-svg" width={availW} height={TOTAL_H}>{lines}</svg>
+          {labels}
           {cards}
         </div>
       )}
@@ -120,13 +154,25 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
   )
 }
 
-function Card({ matchup, x, y, w, h, highlighted, active }) {
+function DivisionLabel({ div, x, y, w }) {
+  if (!div) return null
+  return (
+    <div className="bt-div-label" style={{ left: x, top: y, width: w, height: LABEL_H, color: div.color }}>
+      <span className="bt-div-emoji">{div.emoji}</span>
+      <span className="bt-div-name">{div.name}</span>
+    </div>
+  )
+}
+
+function Card({ matchup, x, y, w, h, division, highlighted, active }) {
   const { top, bottom, winner } = matchup
   const opponent = winner?.id === top?.id ? bottom : top
   const isUpset = winner && opponent && winner.seed > opponent.seed
   const cls = ['bt-card', highlighted ? 'highlighted' : '', active ? 'cur' : ''].filter(Boolean).join(' ')
+  const style = { left: x, top: y, width: w, height: h }
+  if (division) style['--div-color'] = division.color
   return (
-    <div className={cls} style={{ left: x, top: y, width: w, height: h }}>
+    <div className={cls} style={style}>
       {isUpset && <span className="upset-badge">UPSET</span>}
       <Slot food={top} winner={winner} />
       <div className="bt-sep" />
@@ -138,10 +184,11 @@ function Card({ matchup, x, y, w, h, highlighted, active }) {
 function Slot({ food, winner }) {
   const won  = winner && food && winner.id === food.id
   const lost = winner && food && winner.id !== food.id
+  const seedLabel = food?.divisionSeed ?? food?.seed ?? food?.id
   return (
     <div className={`bt-slot ${won ? 'won' : ''} ${lost ? 'lost' : ''} ${!food ? 'tbd' : ''}`}>
       {food
-        ? <><span className="bt-seed">{food.seed ?? food.id}</span><span className="bt-emoji">{food.emoji}</span><span className="bt-name">{food.name}</span></>
+        ? <><span className="bt-seed">{seedLabel}</span><span className="bt-emoji">{food.emoji}</span><span className="bt-name">{food.name}</span></>
         : <span className="bt-tbd">TBD</span>
       }
     </div>
