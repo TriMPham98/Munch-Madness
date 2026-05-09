@@ -15,12 +15,12 @@ export default function FaceOff({ rounds, activeRound, focusedIdx, onPick, onNav
     <div className="faceoff">
       <div className="fo-nav">
         <button className="fo-arrow" onClick={() => onNav(-1)} disabled={focusedIdx === 0}>‹</button>
-        <span className="fo-meta">{roundName} · Game {focusedIdx + 1} of {total}</span>
+        <span className="fo-meta">{roundName}<br />Game {focusedIdx + 1} of {total}</span>
         <button className="fo-arrow" onClick={() => onNav(1)} disabled={focusedIdx === total - 1}>›</button>
       </div>
 
       <div className="fo-matchup">
-        <FoodBtn food={top} winner={winner} onClick={() => !winner && onPick(activeRound, focusedIdx, top)} />
+        <FoodBtn food={top}    winner={winner} onClick={() => !winner && onPick(activeRound, focusedIdx, top)} />
         <span className="fo-vs">VS</span>
         <FoodBtn food={bottom} winner={winner} onClick={() => !winner && onPick(activeRound, focusedIdx, bottom)} />
       </div>
@@ -35,7 +35,7 @@ export default function FaceOff({ rounds, activeRound, focusedIdx, onPick, onNav
 }
 
 function FoodBtn({ food, winner, onClick }) {
-  const won = winner?.id === food?.id
+  const won  = winner?.id === food?.id
   const lost = winner && !won
   return (
     <button

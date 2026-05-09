@@ -148,10 +148,10 @@ export default function App() {
       )}
 
       {screen === 'bracket' && rounds && (
-        <>
-          <div className="bracket-bar">
+        <div className="bracket-layout">
+          <BracketTree side="left"  rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
+          <div className="bracket-center">
             <ShotClock seconds={shotSecs} />
-            <div className="bar-divider" />
             <FaceOff
               rounds={rounds}
               activeRound={activeRound}
@@ -161,12 +161,8 @@ export default function App() {
             />
             <button className="reset-btn" onClick={handleReset}>↩</button>
           </div>
-          <BracketTree
-            rounds={rounds}
-            activeRound={activeRound}
-            focusedKey={focusedKey}
-          />
-        </>
+          <BracketTree side="right" rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
+        </div>
       )}
 
       {screen === 'winner' && <Winner food={champion} onReset={handleReset} />}
