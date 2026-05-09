@@ -167,7 +167,7 @@ function DivisionLabel({ div, x, y, w }) {
 function Card({ matchup, x, y, w, h, division, highlighted, active }) {
   const { top, bottom, winner } = matchup
   const opponent = winner?.id === top?.id ? bottom : top
-  const isUpset = winner && opponent && winner.seed > opponent.seed
+  const isUpset = winner && opponent && winner.divisionSeed > opponent.divisionSeed
   const cls = ['bt-card', highlighted ? 'highlighted' : '', active ? 'cur' : ''].filter(Boolean).join(' ')
   const style = { left: x, top: y, width: w, height: h }
   if (division) style['--div-color'] = division.color
