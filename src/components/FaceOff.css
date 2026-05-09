@@ -29,11 +29,21 @@
 }
 
 .fo-vs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.6rem;
   font-weight: 900;
   letter-spacing: 2px;
   color: #333;
-  text-align: center;
+}
+
+.fo-vs::before,
+.fo-vs::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #222;
 }
 
 .fo-btn {

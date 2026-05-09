@@ -121,7 +121,8 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
 
 function Card({ matchup, x, y, w, h, highlighted, active }) {
   const { top, bottom, winner } = matchup
-  const isUpset = winner && winner.id === bottom?.id
+  const opponent = winner?.id === top?.id ? bottom : top
+  const isUpset = winner && opponent && winner.seed > opponent.seed
   const cls = ['bt-card', highlighted ? 'highlighted' : '', active ? 'cur' : ''].filter(Boolean).join(' ')
   return (
     <div className={cls} style={{ left: x, top: y, width: w, height: h }}>
