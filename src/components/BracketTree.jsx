@@ -29,8 +29,9 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
   const COL_W  = availW > 0 ? availW / N_COLS : 120
   const CARD_W = COL_W * 0.80
   const COL_GAP = COL_W - CARD_W
+  const EDGE_PAD = COL_GAP / 2
 
-  function colX(col) { return col * COL_W }
+  function colX(col) { return col * COL_W + EDGE_PAD }
 
   const display = buildDisplayRounds(rounds, 5)
 
