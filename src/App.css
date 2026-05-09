@@ -97,7 +97,7 @@
   gap: 8px;
   z-index: 200;
   animation: rt-fade 2s ease forwards;
-  pointer-events: none;
+  pointer-events: all;
 }
 
 .rt-label {
