@@ -134,3 +134,12 @@
   from { transform: scale(0); }
   to   { transform: scale(1); }
 }
+
+@media (max-width: 640px) {
+  .bt-name  { font-size: 0.62rem; }
+  .bt-seed  { font-size: 0.52rem; min-width: 12px; }
+  .bt-slot  { gap: 4px; padding: 0 5px; }
+  .bt-header { font-size: 0.55rem; letter-spacing: 1px; }
+  .bt-div-label { font-size: 0.55rem; gap: 4px; }
+  .bt-div-emoji { font-size: 0.75rem; }
+}

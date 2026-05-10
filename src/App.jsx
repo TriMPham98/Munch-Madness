@@ -32,6 +32,7 @@ export default function App() {
   const [shotSecs,   setShotSecs]   = useState(SHOT_SECS)
   const [buzzer,     setBuzzer]     = useState(false)
   const [transitionRound, setTransitionRound] = useState(null)
+  const [mobileSide, setMobileSide] = useState('left')
   const roundsLenRef = useRef(load()?.rounds?.length ?? 0)
 
   const activeRound = rounds ? rounds.length - 1 : 0
@@ -136,7 +137,7 @@ export default function App() {
       {screen === 'setup' && <Setup foods={DEFAULT_FOODS} onStart={handleStart} />}
 
       {screen === 'bracket' && rounds && (
-        <div className="bracket-layout">
+        <div className="bracket-layout" data-mobile-side={mobileSide}>
           <BracketTree side="left"  rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
           <div className="bracket-center">
             <div className="center-card">
@@ -150,6 +151,10 @@ export default function App() {
                 onPick={handlePick}
               />
             </div>
+          </div>
+          <div className="mobile-bracket-tabs" role="tablist">
+            <button role="tab" aria-selected={mobileSide === 'left'}  className={mobileSide === 'left'  ? 'active' : ''} onClick={() => setMobileSide('left')}>← Left half</button>
+            <button role="tab" aria-selected={mobileSide === 'right'} className={mobileSide === 'right' ? 'active' : ''} onClick={() => setMobileSide('right')}>Right half →</button>
           </div>
           <BracketTree side="right" rounds={rounds} activeRound={activeRound} focusedKey={focusedKey} />
         </div>

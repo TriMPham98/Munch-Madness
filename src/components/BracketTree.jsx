@@ -134,7 +134,7 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
   }
 
   return (
-    <div ref={outerRef} className="bt-outer">
+    <div ref={outerRef} className={`bt-outer bt-outer--${side}`}>
       {availW > 0 && (
         <div className="bt-headers" style={{ height: 26 }}>
           {headers.map((label, col) => (

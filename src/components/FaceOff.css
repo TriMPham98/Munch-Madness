@@ -99,3 +99,25 @@
   justify-content: center;
   gap: 6px;
 }
+
+@media (max-width: 960px) {
+  .fo-matchup {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .fo-btn {
+    flex: 1;
+    padding: 14px 8px;
+  }
+  .fo-vs {
+    flex: 0 0 auto;
+    flex-direction: column;
+    padding: 0 2px;
+  }
+  .fo-vs::before,
+  .fo-vs::after {
+    width: 1px;
+    height: auto;
+  }
+}

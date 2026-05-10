@@ -37,11 +37,16 @@
 .bracket-layout {
   display: grid;
   grid-template-columns: 1fr 200px 1fr;
+  grid-template-areas: "left center right";
   gap: 0 12px;
   align-items: start;
 }
 
+.bt-outer--left  { grid-area: left; }
+.bt-outer--right { grid-area: right; }
+
 .bracket-center {
+  grid-area: center;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -59,6 +64,68 @@
   padding: 16px 10px;
   display: flex;
   justify-content: center;
+}
+
+.mobile-bracket-tabs {
+  display: none;
+  grid-area: tabs;
+}
+
+@media (max-width: 960px) {
+  .bracket-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "center" "tabs" "bracket";
+    gap: 12px 0;
+  }
+  .bt-outer--left,
+  .bt-outer--right { grid-area: bracket; }
+  .bracket-layout[data-mobile-side="left"]  .bt-outer--right { display: none; }
+  .bracket-layout[data-mobile-side="right"] .bt-outer--left  { display: none; }
+
+  .bracket-center {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .bracket-center .center-card { flex: 1 1 280px; }
+
+  .mobile-bracket-tabs {
+    display: flex;
+    gap: 8px;
+    background: #0e0e0e;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    padding: 4px;
+  }
+  .mobile-bracket-tabs button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .mobile-bracket-tabs button.active {
+    background: #1a1a1a;
+    color: #f97316;
+  }
+}
+
+@media (max-width: 640px) {
+  .app { padding: 16px 12px; }
+  .app-header { margin-bottom: 14px; }
+  .app-header h1 { font-size: 2rem; }
+  .app-header .tagline { font-size: 0.85rem; }
+  .rt-name { font-size: 2rem; }
+  .center-card { padding: 12px 8px; }
 }
 
 
