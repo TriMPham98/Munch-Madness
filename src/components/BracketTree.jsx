@@ -7,7 +7,7 @@ const N_HALF  = 8
 const CARD_H  = 62
 const UNIT_H  = 84
 const LABEL_H = 20
-const TOTAL_H = N_HALF * UNIT_H + LABEL_H  // top-quarter label sits above first card
+const TOTAL_H = N_HALF * UNIT_H + 2 * LABEL_H  // labels sit above first and below last card
 
 const LEFT_HEADERS  = ['R32', 'R16', 'QF', 'SF']
 const RIGHT_HEADERS = ['SF', 'QF', 'R16', 'R32']
@@ -123,14 +123,12 @@ export default function BracketTree({ rounds, activeRound, focusedKey, side }) {
     })
   })
 
-  // Division labels sit above the topmost R32 card of each quarter.
-  // Top quarter:    y = 0  (above first card; LABEL_H tall)
-  // Bottom quarter: y in the gap between cards 3 and 4 (cardTop(0,4) - LABEL_H)
+  // Top quarter label sits above the first R32 card; bottom quarter label sits below the last.
   const labels = []
   if (availW > 0) {
     labels.push(
       <DivisionLabel key="top"    div={topDiv}    x={colX(r32Col)} y={0}                          w={CARD_W} />,
-      <DivisionLabel key="bottom" div={bottomDiv} x={colX(r32Col)} y={cardTop(0, 4) - LABEL_H}    w={CARD_W} />,
+      <DivisionLabel key="bottom" div={bottomDiv} x={colX(r32Col)} y={TOTAL_H - LABEL_H}          w={CARD_W} />,
     )
   }
 
