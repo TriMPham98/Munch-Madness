@@ -14,7 +14,7 @@ export const DEFAULT_FOODS = [
   { id: 5,  name: "Burger King",       emoji: '🍔', domain: 'bk.com',                division: 'burger'   },
   { id: 6,  name: "Whataburger",       emoji: '🍔', domain: 'whataburger.com',       division: 'burger'   },
   { id: 7,  name: "McDonald's",        emoji: '🍔', domain: 'mcdonalds.com',         division: 'burger'   },
-  { id: 8,  name: "Culver's",          emoji: '🍔', domain: 'culvers.com',           division: 'burger'   },
+  { id: 8,  name: "Steak 'n Shake",    emoji: '🍔', domain: 'steaknshake.com',       division: 'burger'   },
   // Cluckers Conference — chicken & wings
   { id: 9,  name: "Chick-fil-A",       emoji: '🐔', domain: 'chick-fil-a.com',       division: 'chicken'  },
   { id: 10, name: "Popeyes",           emoji: '🍗', domain: 'popeyes.com',           division: 'chicken'  },
@@ -29,7 +29,7 @@ export const DEFAULT_FOODS = [
   { id: 18, name: "Taco Bell",         emoji: '🌮', domain: 'tacobell.com',          division: 'handheld' },
   { id: 19, name: "Subway",            emoji: '🥪', domain: 'subway.com',            division: 'handheld' },
   { id: 20, name: "Jersey Mike's",     emoji: '🥪', domain: 'jerseymikes.com',       division: 'handheld' },
-  { id: 21, name: "Qdoba",             emoji: '🌯', domain: 'qdoba.com',             division: 'handheld' },
+  { id: 21, name: "Bánh Mì Đức Hương", emoji: '🥖', division: 'handheld' },
   { id: 22, name: "Panera Bread",      emoji: '🥐', domain: 'panerabread.com',       division: 'handheld' },
   { id: 23, name: "Domino's",          emoji: '🍕', domain: 'dominos.com',           division: 'handheld' },
   { id: 24, name: "Papa John's",       emoji: '🍕', domain: 'papajohns.com',         division: 'handheld' },

@@ -6,9 +6,9 @@ cd "$(dirname "$0")/.." || exit 1
 mkdir -p public/logos
 
 DOMAINS=(
-  in-n-out.com shakeshack.com fiveguys.com wendys.com bk.com whataburger.com mcdonalds.com culvers.com
+  in-n-out.com shakeshack.com fiveguys.com wendys.com bk.com whataburger.com mcdonalds.com steaknshake.com
   chick-fil-a.com popeyes.com raisingcanes.com kfc.com wingstop.com buffalowildwings.com jackinthebox.com pandaexpress.com
-  chipotle.com tacobell.com subway.com jerseymikes.com qdoba.com panerabread.com dominos.com papajohns.com
+  chipotle.com tacobell.com subway.com jerseymikes.com panerabread.com dominos.com papajohns.com
   olivegarden.com thecheesecakefactory.com texasroadhouse.com applebees.com chilis.com ihop.com wafflehouse.com pizzahut.com
 )
 
