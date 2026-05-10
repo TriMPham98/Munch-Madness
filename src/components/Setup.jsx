@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { DIVISIONS } from '../bracket.js'
+import BrandLogo from './BrandLogo.jsx'
 import './Setup.css'
 
 const DIVISION_ORDER = DIVISIONS.map(d => d.key)
@@ -117,7 +118,7 @@ export default function Setup({ foods, onStart }) {
                     onDragEnd={onDragEnd}
                   >
                     <span className="seed">{i + 1}</span>
-                    <span className="food-emoji">{food.emoji}</span>
+                    <BrandLogo food={food} size={24} />
                     {editingId === food.id ? (
                       <input
                         className="food-name-input"

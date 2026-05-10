@@ -97,12 +97,6 @@
 
 .bt-slot.won .bt-seed { color: #2d6b3a; }
 
-.bt-emoji {
-  font-size: 0.9rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
 .bt-name {
   font-size: 0.7rem;
   font-weight: 600;

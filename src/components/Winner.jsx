@@ -1,3 +1,4 @@
+import BrandLogo from './BrandLogo.jsx'
 import './Winner.css'
 
 export default function Winner({ food, onReset }) {
@@ -12,7 +13,7 @@ export default function Winner({ food, onReset }) {
         <div className="trophy">🏆</div>
         <h2>Tonight's Dinner</h2>
         <div className="winner-food">
-          <span className="winner-emoji">{food.emoji}</span>
+          <BrandLogo food={food} size={96} />
           <span className="winner-name">{food.name}</span>
         </div>
         <p className="winner-sub">The crowd has spoken. Time to eat!</p>

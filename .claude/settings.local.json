@@ -7,7 +7,11 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
       "Bash(npx vite *)",
       "Read(//Users/trimpham98/Dropbox/My Mac \\(MacBook-Pro.local\\)/Downloads/**)",
-      "Bash(cp \"/Users/trimpham98/Dropbox/My Mac \\(MacBook-Pro.local\\)/Downloads/basketballBuzzer.mp3\" /Users/trimpham98/repos/Munch-Madness/public/basketballBuzzer.mp3)"
+      "Bash(cp \"/Users/trimpham98/Dropbox/My Mac \\(MacBook-Pro.local\\)/Downloads/basketballBuzzer.mp3\" /Users/trimpham98/repos/Munch-Madness/public/basketballBuzzer.mp3)",
+      "Bash(mkdir -p /Users/trimpham98/repos/Munch-Madness/public/logos)",
+      "Bash(curl -fsS 'https://logo.clearbit.com/__TRACKED_VAR__?size=192' -o __TRACKED_VAR__.png)",
+      "Bash(rm -f __TRACKED_VAR__.png)",
+      "Bash(chmod +x *)"
     ]
   }
 }

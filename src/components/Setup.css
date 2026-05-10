@@ -106,11 +106,6 @@
   flex-shrink: 0;
 }
 
-.food-emoji {
-  font-size: 1.35rem;
-  flex-shrink: 0;
-}
-
 .food-name {
   font-size: 0.9rem;
   font-weight: 500;

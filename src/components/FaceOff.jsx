@@ -1,3 +1,4 @@
+import BrandLogo from './BrandLogo.jsx'
 import './FaceOff.css'
 
 const ROUND_NAMES = ['Round of 32', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Championship']
@@ -25,7 +26,7 @@ export default function FaceOff({ rounds, activeRound, focusedIdx, onPick, onNav
 
       {winner && (
         <div className="fo-picked">
-          {winner.emoji} {winner.name} advances →
+          <BrandLogo food={winner} size={14} /> {winner.name} advances →
         </div>
       )}
     </div>
@@ -41,7 +42,7 @@ function FoodBtn({ food, winner, onClick }) {
       onClick={onClick}
       disabled={!!winner}
     >
-      <span className="fo-emoji">{food.emoji}</span>
+      <BrandLogo food={food} size={40} />
       <span className="fo-name">{food.name}</span>
     </button>
   )

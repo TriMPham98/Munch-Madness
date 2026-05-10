@@ -80,11 +80,6 @@
   cursor: default;
 }
 
-.fo-emoji {
-  font-size: 2rem;
-  line-height: 1;
-}
-
 .fo-name {
   font-size: 0.82rem;
   font-weight: 700;
@@ -99,4 +94,8 @@
   color: #22c55e;
   font-weight: 600;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }

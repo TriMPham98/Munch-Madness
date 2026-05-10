@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { buildDisplayRounds, DIVISIONS } from '../bracket.js'
+import BrandLogo from './BrandLogo.jsx'
 import './BracketTree.css'
 
 const N_COLS  = 4
@@ -186,7 +187,7 @@ function Slot({ food, winner }) {
   return (
     <div className={`bt-slot ${won ? 'won' : ''} ${lost ? 'lost' : ''} ${!food ? 'tbd' : ''}`}>
       {food
-        ? <><span className="bt-seed">{seedLabel}</span><span className="bt-emoji">{food.emoji}</span><span className="bt-name">{food.name}</span></>
+        ? <><span className="bt-seed">{seedLabel}</span><BrandLogo food={food} size={18} /><span className="bt-name">{food.name}</span></>
         : <span className="bt-tbd">TBD</span>
       }
     </div>
